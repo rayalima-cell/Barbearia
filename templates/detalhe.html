@@ -2,9 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>detalhe</title>
 </head>
 <body>
+    {% extends "base.html" %}
 
+{% block title %}Detalhe do agendamento | Navalha de Ouro{% endblock %}
+
+{% block content %}
+<section class="card">
+    <!-- O próprio template trata um agendamento inexistente. -->
+    {% if agendamento %}
+        <p class="subtitulo">Informações do atendimento</p>
+        <h1>Agendamento #{{ agendamento.id }}</h1>
+
+        <dl class="detalhes">
+            <div>
+                <dt>ID</dt>
+                <dd>{{ agendamento.id }}</dd>
+            </div>
+
+            <div>
+                <dt>Cliente</dt>
+                <dd>{{ agendamento.cliente }}</dd>
+            </div>
+
+            <div>
+                <dt>Telefone</dt>
+                <dd>{{ agendamento.telefone or 'Não informado' }}</dd>
+            </div>
+
+            <div>
+                <dt>Serviço</dt>
+                <dd>{{ agendamento.servico or 'Não informado' }}</dd>
+            </div>
+
+            <div>
+                <dt>Preço</dt>
+                <dd>{{ agendamento.preco | moeda }}</dd>
+            </div>
+
+            <div>
+                <dt>Barbeiro</dt>
+                <dd>{{ agendamento.barbeiro or 'Não informado' }}</dd>
+            </div>
+
+            <div>
+                <dt>Data</dt>
+                <dd>{{ agendamento.data | data_br }}</dd>
+            </div>
+
+            <div>
+                <dt>Horário</dt>
+                <dd>{{ agendamento.horario or 'Não informado' }}</dd>
+            </div>
+
+            <div>
+                <dt>Status</dt>
+                <dd>
+                    <span class="status">{{ agendamento.status }}</span>
+                </dd>
+            </div>
+        </dl>
+    {% else %}
+        <h1>Agendamento não encontrado</h1>
+
+        <p>
+            Não existe um agendamento cadastrado com o ID informado.
+        </p>
+    {% endif %}
+
+    <a class="botao" href="{{ url_for('agendamentos') }}">
+        Voltar à listagem
+    </a>
+</section>
+{% endblock %}
 </body>
 </html>

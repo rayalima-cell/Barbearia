@@ -2,9 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Agendamentos</title>
 </head>
 <body>
+    {% extends "base.html" %}
 
+{% block title %}Agendamentos | Navalha de Ouro{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="titulo-pagina">
+        <div>
+            <h1>Agendamentos</h1>
+
+            <p>
+                {% if status_atual %}
+                    Exibindo registros com status: <strong>{{ status_atual }}</strong>
+                {% else %}
+                    Exibindo todos os agendamentos.
+                {% endif %}
+            </p>
+        </div>
+
+        <span class="contador">
+            {{ agendamentos | length }} registro(s)
+        </span>
+    </div>
+
+    <!-- Todos os links são gerados com url_for(). -->
+    <nav class="filtros" aria-label="Filtrar por status">
+        <a
+            class="filtro {% if not status_atual %}ativo{% endif %}"
+            href="{{ url_for('agendamentos') }}"
+        >
+            Todos
+        </a>
+
+        {% for status in status_validos %}
+            <a
+                class="filtro {% if status_atual == status %}ativo{% endif %}"
+                href="{{ url_for('agendamentos_por_status', status=status) }}"
+            >
+                {{ status }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    <div class="tabela-container">
+        <table>
+            <caption class="sr-only">
+                Lista de agendamentos da barbearia
+            </caption>
+
+            <thead>
+                <tr>
+                    <th scope="col">Nº</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Serviço</th>
+                    <th scope="col">Barbeiro</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Horário</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Detalhes</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for agendamento in agendamentos %}
+                    <!-- O if determina a cor de toda a linha. -->
+                    <tr class="{% if agendamento.status == 'Concluído' %}linha-concluido{% elif agendamento.status == 'Cancelado' %}linha-cancelado{% else %}linha-agendado{% endif %}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ agendamento.cliente }}</td>
+                        <td>{{ agendamento.servico or 'Não informado' }}</td>
+                        <td>{{ agendamento.barbeiro or 'Não informado' }}</td>
+                        <td>{{ agendamento.data | data_br }}</td>
+                        <td>{{ agendamento.horario or '—' }}</td>
+                        <td>
+                            <span class="status">{{ agendamento.status }}</span>
+                        </td>
+                        <td>
+                            <a
+                                class="link-detalhe"
+                                href="{{ url_for('detalhe_agendamento', id=agendamento.id) }}"
+                                aria-label="Ver detalhes do agendamento de {{ agendamento.cliente }}"
+                            >
+                                Ver detalhes
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="vazio">
+                            Nenhum agendamento encontrado.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
 </body>
 </html>

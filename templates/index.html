@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Início</title>
 </head>
 <body>
+    {% extends "base.html" %}
 
+{% block content %}
+<section class="card apresentacao">
+    <p class="subtitulo">Organização e cuidado em cada atendimento</p>
+
+    <h1>Barbearia Navalha de Ouro</h1>
+
+    <p>
+        Consulte a agenda da barbearia, acompanhe os status e
+        visualize os detalhes dos atendimentos.
+    </p>
+
+    <a class="botao" href="{{ url_for('agendamentos') }}">
+        Consultar agendamentos
+    </a>
+</section>
+
+<section class="card resumo" aria-labelledby="titulo-resumo">
+    <div>
+        <h2 id="titulo-resumo">Total de agendamentos</h2>
+        <p>Todos os registros cadastrados, independentemente do status.</p>
+    </div>
+
+    <!-- O total é calculado com o filtro length, conforme o enunciado. -->
+    <strong class="numero">{{ agendamentos | length }}</strong>
+</section>
+{% endblock %}
 </body>
 </html>

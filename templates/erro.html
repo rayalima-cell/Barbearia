@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+{% block title %}{{ titulo }} | Navalha de Ouro{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h1>{{ titulo }}</h1>
+
+    <p>{{ mensagem }}</p>
+
+    <a class="botao" href="{{ url_for('index') }}">
+        Voltar ao início
+    </a>
+</section>
+{% endblock %}
+</body>
+</html>

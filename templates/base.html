@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %}Navalha de Ouro{% endblock %}</title>
 </head>
 <body>
+       <header class="cabecalho">
+        <div class="container cabecalho-conteudo">
+            <a class="marca" href="{{ url_for('index') }}">
+                Navalha <span>de Ouro</span>
+            </a>
 
+            <nav aria-label="Menu principal">
+                <a href="{{ url_for('index') }}">Início</a>
+                <a href="{{ url_for('agendamentos') }}">Agendamentos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="rodape">
+        <p>Barbearia Navalha de Ouro — Sistema de agendamentos</p>
+    </footer>
 </body>
 </html>
